@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] KeyCode leftKey, rightKey, jumpKey, pickUpKey;
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float maxJumpHeight = 10f;
+    [SerializeField] float minJumpHeight = 3f;
     [SerializeField] float chargeRate = 2f;
 
     private ScreenShake camShake;
@@ -72,7 +73,7 @@ public class Player : MonoBehaviour
         // Jumping
         if (Input.GetKeyUp(jumpKey) && isGrounded)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpCharge);
+            rb.velocity = new Vector2(rb.velocity.x, jumpCharge + minJumpHeight);
             shakeCam = true;
             jumpCharge = 0f;
         }

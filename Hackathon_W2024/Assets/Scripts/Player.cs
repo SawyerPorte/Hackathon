@@ -5,16 +5,30 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] KeyCode leftKey, rightKey, jumpKey, pickUpKey;
+    [Header("Movement vars")]
     [SerializeField] float moveSpeed = 5f;
+
+    [Header("Jump vars")]
     [SerializeField] float maxJumpHeight = 10f;
     [SerializeField] float minJumpHeight = 3f;
     [SerializeField] float chargeRate = 2f;
 
-    private ScreenShake camShake;
-    private Rigidbody2D rb;
     private bool isGrounded;
     private float jumpCharge;
     private bool shakeCam = false;
+
+    [Header("Block vars")]
+    [SerializeField] LayerMask pickUpLayer;
+    [SerializeField] LayerMask dropLayer;
+    [SerializeField] float pickUpDistance = 2f;
+    [Tooltip("how much in front of the player the block will be placed")] [SerializeField] float placeInFrontDistance = 1f;
+
+    private GameObject pickedUpObject; // The object currently picked up
+    private bool isHoldingObject = false;
+
+    private ScreenShake camShake;
+    private Rigidbody2D rb;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +41,100 @@ public class Player : MonoBehaviour
     void Update()
     {
         JumpLogic();
-        if(isGrounded)
+        if (!shakeCam)
+        {
             MoveLogic();
+        }
+
+        PickUpInputLogic();
+    }
+
+    private void PickUpInputLogic()
+    {
+        if (Input.GetKeyDown(pickUpKey))
+        {
+            if (!isHoldingObject)
+                PickUpObject();
+            else
+                DropObject();
+        }
+
+        if (isHoldingObject)
+        {
+            pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
+        }
+    }
+
+    private void PickUpObject()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickUpDistance, pickUpLayer);
+
+        if (colliders.Length > 0)
+        {
+            GameObject closestObject = null;
+            float closestDistance = Mathf.Infinity;
+
+            foreach (Collider2D collider in colliders)
+            {
+                float distance = Vector2.Distance(transform.position, collider.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestObject = collider.gameObject;
+                    closestDistance = distance;
+                }
+            }
+
+            // Move the closest object above the player
+            if (closestObject != null)
+            {
+                pickedUpObject = closestObject;
+                isHoldingObject = true;
+                pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+                pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
+            }
+        }
+    }
+
+    private void DropObject()
+    {
+        if (pickedUpObject != null)
+        {
+            // Check for nearby objects on the specified layer
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickUpDistance, dropLayer);
+
+            if (colliders.Length > 0)
+            {
+                // Find the closest object on the specified layer
+                GameObject closestObject = null;
+                float closestDistance = Mathf.Infinity;
+
+                foreach (Collider2D collider in colliders)
+                {
+                    float distance = Vector2.Distance(transform.position, collider.transform.position);
+                    if (distance < closestDistance)
+                    {
+                        closestObject = collider.gameObject;
+                        closestDistance = distance;
+                    }
+                }
+
+                // Place the picked up object at the position of the closest object
+                if (closestObject != null)
+                {
+                    pickedUpObject.transform.position = closestObject.transform.position;
+                    //pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+                }
+            }
+            else
+            {
+                // If no nearby objects on the specified layer, drop the object at the player's position
+                pickedUpObject.transform.position = transform.position + (transform.right * (transform.localScale.x > 0 ? 1f : -1f)) * placeInFrontDistance;
+                pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+            }
+
+            isHoldingObject = false;
+            pickedUpObject = null;
+        }
     }
 
     private void MoveLogic()
@@ -38,10 +144,12 @@ public class Player : MonoBehaviour
         if (Input.GetKey(leftKey))
         {
             moveInput = -1f;
+            transform.localScale = new Vector3(-1f, 1f, 1f);
         }
         else if (Input.GetKey(rightKey))
         {
             moveInput = 1f;
+            transform.localScale = new Vector3(1f, 1f, 1f);
         }
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
     }

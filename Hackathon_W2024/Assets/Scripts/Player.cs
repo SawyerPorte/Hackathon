@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] float moveSpeed = 5f;
 
     [Header("Jump vars")]
+    [SerializeField] LayerMask groundLayers;
     [SerializeField] float maxJumpHeight = 10f;
     [SerializeField] float minJumpHeight = 3f;
     [SerializeField] float chargeRate = 2f;
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour
 
     private GameObject pickedUpObject; // The object currently picked up
     private bool isHoldingObject = false;
+    GameObject closestObject;
 
     private ScreenShake camShake;
     private Rigidbody2D rb;
@@ -61,7 +63,16 @@ public class Player : MonoBehaviour
 
         if (isHoldingObject)
         {
-            pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
+            ReturnClosestDropPoint();
+            if (closestObject == null)
+                pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
+            else
+            {
+                pickedUpObject.transform.position = closestObject.transform.position;
+                pickedUpObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
+                pickedUpObject.GetComponent<Rigidbody2D>().freezeRotation = true;
+            }
+                
         }
     }
 
@@ -90,20 +101,43 @@ public class Player : MonoBehaviour
                 pickedUpObject = closestObject;
                 isHoldingObject = true;
                 pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+                pickedUpObject.GetComponent<Rigidbody2D>().constraints &= ~RigidbodyConstraints2D.FreezePosition;
                 pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
             }
         }
     }
+    private GameObject ReturnClosestDropPoint()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickUpDistance, dropLayer);
+        closestObject = null;
+        if (colliders.Length > 0)
+        {
+            // Find the closest object on the specified layer
+            
+            float closestDistance = Mathf.Infinity;
 
+            foreach (Collider2D collider in colliders)
+            {
+                float distance = Vector2.Distance(transform.position, collider.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestObject = collider.gameObject;
+                    closestDistance = distance;
+                }
+            }
+        }
+        return closestObject;
+    }
     private void DropObject()
     {
         if (pickedUpObject != null)
         {
             // Check for nearby objects on the specified layer
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickUpDistance, dropLayer);
-
-            if (colliders.Length > 0)
+            //Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickUpDistance, dropLayer);
+            ReturnClosestDropPoint();
+            if (closestObject != null)
             {
+                /*
                 // Find the closest object on the specified layer
                 GameObject closestObject = null;
                 float closestDistance = Mathf.Infinity;
@@ -117,11 +151,13 @@ public class Player : MonoBehaviour
                         closestDistance = distance;
                     }
                 }
-
+                */
                 // Place the picked up object at the position of the closest object
                 if (closestObject != null)
                 {
                     pickedUpObject.transform.position = closestObject.transform.position;
+                    pickedUpObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
+                    pickedUpObject.GetComponent<Rigidbody2D>().freezeRotation = true;
                     //pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 1;
                 }
             }
@@ -156,7 +192,7 @@ public class Player : MonoBehaviour
     private void JumpLogic()
     {
         // Check if player is grounded
-        isGrounded = Physics2D.OverlapCircle(transform.position, 0.8f, LayerMask.GetMask("Ground"));
+        isGrounded = Physics2D.OverlapCircle(transform.position, 0.8f, groundLayers);
 
         if (isGrounded && rb.velocity.y < 0)
         {

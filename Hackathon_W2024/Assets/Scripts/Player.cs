@@ -257,4 +257,13 @@ public class Player : MonoBehaviour
             jumpsLeft--;
         }
     }
+
+    public GameObject GetPickedUpObject()
+    {
+        if (isHoldingObject)
+        {
+            return pickedUpObject;
+        }
+        else return null;
+    }
 }

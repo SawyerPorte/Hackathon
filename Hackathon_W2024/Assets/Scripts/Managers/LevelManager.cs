@@ -53,6 +53,12 @@ public class LevelManager : MonoBehaviour
         _loaderCanvas.SetActive(false);
     }
 
+    public void LoadNextLevel()
+    {
+        string sceneName = "Level" + _level.ToString();
+        LoadScene(sceneName);
+    }
+
     public int GetCurrentLevel()
     {
         return _level;

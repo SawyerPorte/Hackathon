@@ -11,6 +11,7 @@ TagManager:
   - StickyBlock
   - Player1
   - Player2
+  - LockBlock
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Ground
   - Pickups
   - DropArea
-  - 
+  - LockGate
   - 
   - 
   - 

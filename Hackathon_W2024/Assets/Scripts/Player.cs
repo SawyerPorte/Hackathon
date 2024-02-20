@@ -30,6 +30,10 @@ public class Player : MonoBehaviour
     private bool isHoldingObject = false;
     GameObject closestObject;
 
+    // Logic for Lock Block interaction
+    public bool isNearLock = false;
+    GameObject currentLockRef = null;
+
     private ScreenShake camShake;
     private Rigidbody2D rb;
     
@@ -63,6 +67,23 @@ public class Player : MonoBehaviour
             // Apply a force in the bounce direction to the object
             rb.AddForce(bounceDirection * collision.gameObject.GetComponent<Blocks>().ReturnBounceForce(), ForceMode2D.Impulse);
         }
+
+        if (collision.gameObject.CompareTag("LockBlock") && !isNearLock)
+        {
+            Debug.Log("stepping into range");
+            currentLockRef = collision.gameObject;
+            isNearLock = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("LockBlock") && isNearLock)
+        {
+            Debug.Log("stepping out of range");
+            currentLockRef = null;
+            isNearLock = false;
+        }
     }
 
     private void PickUpInputLogic()
@@ -70,9 +91,29 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(pickUpKey))
         {
             if (!isHoldingObject)
-                PickUpObject();
+            {
+                if (!isNearLock)
+                {
+                    PickUpObject();
+                }
+                else
+                {
+                    // If player is in range of a lock block, take the item from the block
+                    RecieveObject();
+                }
+            }
             else
-                DropObject();
+            {
+                if (!isNearLock)
+                {
+                    DropObject();
+                }
+                else
+                {
+                    // If player is in range of a lock block, check submission into block
+                    SubmitObject();
+                }
+            }
         }
 
         if (isHoldingObject)
@@ -80,10 +121,10 @@ public class Player : MonoBehaviour
             ReturnClosestDropPoint();
             if (closestObject == null)
             {
-                if(pickedUpObject.transform.parent == null)
+                if (pickedUpObject.transform.parent == null)
                 {
                     pickedUpObject.transform.parent = this.gameObject.transform;
-                    
+
                 }
                 pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
             }
@@ -237,6 +278,60 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Function meant to remove the current object the player is holding and
+    /// place it into lock block
+    /// </summary>
+    public void SubmitObject()
+    {
+        // check if there is a referenced object, if the lock is interactable, and is not occupied with a block
+        if (currentLockRef)
+        {
+            if (currentLockRef.GetComponent<LockBlock>().RecieveSubmission(pickedUpObject))
+            {
+                // Visually remove the object
+                Destroy(pickedUpObject);
+                pickedUpObject = null;
+
+                isHoldingObject = false;
+            }
+            else
+            {
+                // Call drop object instead
+                DropObject();
+            }
+        }
+        else
+        {
+            Debug.LogError("null reference to lock block");
+        }
+    }
+
+    /// <summary>
+    /// Function meant to remove the current object the player is holding and
+    /// place it into lock block
+    /// </summary>
+    public void RecieveObject()
+    {
+        // check if there is a referenced object, if the lock is interactable, and is occupied with a block
+        if (currentLockRef)
+        {
+            // check if object is null
+            if (currentLockRef.GetComponent<LockBlock>().ReturnSubmission())
+            {
+                //TODO: Needs better way to give player block type back
+                pickedUpObject = Instantiate(currentLockRef.GetComponent<LockBlock>().ReturnSubmission());
+                pickedUpObject.SetActive(true);
+
+                isHoldingObject = true;
+            }
+        }
+        else
+        {
+            Debug.LogError("null reference to lock block");
+        }
+    }
+
     private void MoveLogic()
     {
         // Player movement
@@ -293,6 +388,10 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Getter for picked up object
+    /// </summary>
+    /// <returns> If object is available, return a reference. Otherwise return null </returns>
     public GameObject GetPickedUpObject()
     {
         if (isHoldingObject)

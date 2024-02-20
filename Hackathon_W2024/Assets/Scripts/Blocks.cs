@@ -21,14 +21,16 @@ public class Blocks : MonoBehaviour
     [Header("Block specific vars")]
     [SerializeField] float bounceForce = 5;
     [SerializeField] float stickDistance = 1f;
-    [SerializeField] private float moveSpeed = 0.1f;
+    [SerializeField] private float moveSpeed = 0.02f;
     [SerializeField] LayerMask stickLayerMask;
 
     private Rigidbody2D rb;
     private Collider2D closestCollider;
     Vector2[] directions = { Vector2.up, Vector2.left, Vector2.right };
-    private bool facingRight = true;
+    public bool facingRight = true;
     private bool isStuck = false;
+    private bool player1LastInteracted = false;
+    private bool player2LastInteracted = false;
 
     private void Start()
     {
@@ -148,15 +150,26 @@ public class Blocks : MonoBehaviour
 
     private void MovingLogic()
     {
-        /*if (!facingRight)
+        Vector3 newPosition = this.gameObject.transform.position;
+        // if a player interacted with the block before
+        if (player1LastInteracted || player2LastInteracted)
         {
-            moveSpeed *= -1;
-        }*/
-        // move block position forward at a given speed
-        this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x + this.moveSpeed, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
-        //Debug.Log("moving direction: " + this.gameObject.transform.position);
+            // define witch direction the block should move towards
+            if (facingRight)
+            {
+                rb.MovePosition(new Vector2(this.gameObject.transform.position.x + (moveSpeed * rb.mass),
+                    this.gameObject.transform.position.y));
+                //newPosition = new Vector3(this.gameObject.transform.position.x + this.moveSpeed, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
+            }
+            else
+            {
+                rb.MovePosition(new Vector2(this.gameObject.transform.position.x + (-moveSpeed * rb.mass),
+                    this.gameObject.transform.position.y));
+                //newPosition = new Vector3(this.gameObject.transform.position.x - this.moveSpeed, this.gameObject.transform.position.y, this.gameObject.transform.position.z); 
+            }
+        }
     }
-    
+
     private void StickToCollider(Collider2D collider)
     {
         // Get the closest point on the collider's surface to the object's current position
@@ -211,5 +224,19 @@ public class Blocks : MonoBehaviour
     public bool GetIsStuck()
     {
         return isStuck;
+    }
+
+    
+    
+    public void Player1LastInteracted()
+    {
+        player1LastInteracted = true;
+        player2LastInteracted = false;
+    }
+
+    public void Player2LastInteracted()
+    {
+        player1LastInteracted = false;
+        player2LastInteracted = true;
     }
 }

@@ -50,6 +50,18 @@ public class Player : MonoBehaviour
 
         PickUpInputLogic();
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("BouncyBlock"))
+        {
+            // Calculate the direction of the bounce (normal of the collision)
+            Vector2 bounceDirection = collision.contacts[0].normal;
+            print("bounceDirection: " + bounceDirection);
+
+            // Apply a force in the bounce direction to the object
+            rb.AddForce(bounceDirection * moveSpeed * 2, ForceMode2D.Impulse);
+        }
+    }
 
     private void PickUpInputLogic()
     {
@@ -202,7 +214,7 @@ public class Player : MonoBehaviour
                 // Trigger camera shake
                 shakeCam = false;
                 float intensity = Mathf.Clamp01(Mathf.Abs(rb.velocity.y) / 10f);
-                print("intensity: " + intensity);
+                //print("intensity: " + intensity);
                 camShake.ShakeCamera(intensity);
             }
         }

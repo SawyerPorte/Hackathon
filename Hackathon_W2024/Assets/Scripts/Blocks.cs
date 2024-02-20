@@ -27,8 +27,16 @@ public class Blocks : MonoBehaviour
     }
     private void Update()
     {
-        if(blockType == BlockType.Sticky)
-            StickyLogic();
+        switch (blockType)
+        {
+            case BlockType.Normal:
+                break;
+            case BlockType.Sticky:
+                StickyLogic();
+                break;
+            case BlockType.Bouncy:
+                break;
+        }
     }
 
     private void StickyLogic()

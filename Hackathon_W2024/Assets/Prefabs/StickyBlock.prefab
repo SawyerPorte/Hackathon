@@ -149,6 +149,7 @@ MonoBehaviour:
   blockType: 2
   bounceForce: 5
   stickDistance: 0.5
+  moveSpeed: 0.1
   stickLayerMask:
     serializedVersion: 2
     m_Bits: 64

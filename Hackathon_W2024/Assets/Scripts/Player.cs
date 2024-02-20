@@ -79,8 +79,11 @@ public class Player : MonoBehaviour
             ReturnClosestDropPoint();
             if (closestObject == null)
             {
-                pickedUpObject.transform.parent = this.gameObject.transform;
-                pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
+                if(pickedUpObject.transform.parent == null)
+                {
+                    pickedUpObject.transform.parent = this.gameObject.transform;
+                    pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
+                }
             }
             else
             {

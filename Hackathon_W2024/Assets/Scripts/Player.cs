@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     private bool facingRight;
 
     [Header("Block vars")]
+    [SerializeField] GameObject hiddenBoxCollider;
     [SerializeField] LayerMask pickUpLayer;
     [SerializeField] LayerMask dropLayer;
     [SerializeField] float pickUpDistance = 2f;
@@ -124,9 +125,10 @@ public class Player : MonoBehaviour
                 if (pickedUpObject.transform.parent == null)
                 {
                     pickedUpObject.transform.parent = this.gameObject.transform;
+                    pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
 
                 }
-                pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
+                
             }
             else
             {
@@ -168,6 +170,9 @@ public class Player : MonoBehaviour
                 pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 0;
                 pickedUpObject.GetComponent<Rigidbody2D>().constraints &= ~RigidbodyConstraints2D.FreezePosition;
                 pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
+                pickedUpObject.GetComponent<BoxCollider2D>().isTrigger = true;
+                pickedUpObject.GetComponent<Rigidbody2D>().isKinematic = true;
+                hiddenBoxCollider.SetActive(true);
             }
         }
     }
@@ -272,7 +277,9 @@ public class Player : MonoBehaviour
                 pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 2.5f;
                 pickedUpObject.transform.parent = null;
             }
-
+            pickedUpObject.GetComponent<Rigidbody2D>().isKinematic = false;
+            pickedUpObject.GetComponent<BoxCollider2D>().isTrigger = false;
+            hiddenBoxCollider.SetActive(false);
             isHoldingObject = false;
             pickedUpObject = null;
         }

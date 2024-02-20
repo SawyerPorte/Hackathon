@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private bool isGrounded;
     private float jumpCharge;
     private bool shakeCam = false;
+    private int jumpsLeft = 1;
 
     [Header("Block vars")]
     [SerializeField] LayerMask pickUpLayer;
@@ -59,7 +60,7 @@ public class Player : MonoBehaviour
             print("bounceDirection: " + bounceDirection);
 
             // Apply a force in the bounce direction to the object
-            rb.AddForce(bounceDirection * moveSpeed * 2, ForceMode2D.Impulse);
+            rb.AddForce(bounceDirection * collision.gameObject.GetComponent<Blocks>().ReturnBounceForce(), ForceMode2D.Impulse);
         }
     }
 
@@ -84,7 +85,6 @@ public class Player : MonoBehaviour
                 pickedUpObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
                 pickedUpObject.GetComponent<Rigidbody2D>().freezeRotation = true;
             }
-                
         }
     }
 
@@ -176,6 +176,7 @@ public class Player : MonoBehaviour
             else
             {
                 // If no nearby objects on the specified layer, drop the object at the player's position
+                pickedUpObject.GetComponent<Rigidbody2D>().constraints &= ~RigidbodyConstraints2D.FreezePosition;
                 pickedUpObject.transform.position = transform.position + (transform.right * (transform.localScale.x > 0 ? 1f : -1f)) * placeInFrontDistance;
                 pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 1;
             }
@@ -206,32 +207,36 @@ public class Player : MonoBehaviour
         // Check if player is grounded
         isGrounded = Physics2D.OverlapCircle(transform.position, 0.8f, groundLayers);
 
-        if (isGrounded && rb.velocity.y < 0)
+        if (isGrounded)
         {
-            // Check if cameraShake is not null to avoid errors
-            if (camShake != null && shakeCam)
+            jumpsLeft = 1;
+            if(rb.velocity.y < 0)
             {
-                // Trigger camera shake
-                shakeCam = false;
-                float intensity = Mathf.Clamp01(Mathf.Abs(rb.velocity.y) / 10f);
-                //print("intensity: " + intensity);
-                camShake.ShakeCamera(intensity);
+                // Check if cameraShake is not null to avoid errors
+                if (camShake != null && shakeCam)
+                {
+                    // Trigger camera shake
+                    shakeCam = false;
+                    float intensity = Mathf.Clamp01(Mathf.Abs(rb.velocity.y) / 10f);
+                    camShake.ShakeCamera(intensity);
+                }
             }
         }
 
         // Charging jump
-        if (Input.GetKey(jumpKey) && isGrounded)
+        if (Input.GetKey(jumpKey) && jumpsLeft > 0)
         {
             jumpCharge += chargeRate * Time.deltaTime;
             jumpCharge = Mathf.Clamp(jumpCharge, 0f, maxJumpHeight);
         }
 
         // Jumping
-        if (Input.GetKeyUp(jumpKey) && isGrounded)
+        if (Input.GetKeyUp(jumpKey) && jumpsLeft > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpCharge + minJumpHeight);
             shakeCam = true;
             jumpCharge = 0f;
+            jumpsLeft--;
         }
     }
 }

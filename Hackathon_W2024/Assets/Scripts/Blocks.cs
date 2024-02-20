@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum BlockType
@@ -20,10 +21,13 @@ public class Blocks : MonoBehaviour
     [Header("Block specific vars")]
     [SerializeField] float bounceForce = 5;
     [SerializeField] float stickDistance = 1f;
+    [SerializeField] private float moveSpeed = 0.1f;
     [SerializeField] LayerMask stickLayerMask;
 
     private Rigidbody2D rb;
     private Collider2D closestCollider;
+    Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+    private bool facingRight = true;
 
     private void Start()
     {
@@ -36,11 +40,12 @@ public class Blocks : MonoBehaviour
             case BlockType.Normal:
                 break;
             case BlockType.Sticky:
-                StickyLogic();
+                StickyLogicV2();
                 break;
             case BlockType.Bouncy:
                 break;
             case BlockType.Moving:
+                MovingLogic();
                 break;
             case BlockType.Heavy:
                 break;
@@ -54,11 +59,42 @@ public class Blocks : MonoBehaviour
         }
     }
 
+    // return block type
     public BlockType GetBlockType()
     {
         return this.blockType;
     }
 
+    private void StickyLogicV2()
+    {
+        foreach (Vector2 direction in directions)
+        {
+            //RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, stickDistance, stickLayerMask);
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, .001f, direction, stickDistance, stickLayerMask);
+            if (hits.Length > 0)
+            {
+                // Find the closest hit point
+                Vector2 closestPoint = hits[0].point;
+                foreach (var hit in hits)
+                {
+                    if (Vector2.Distance(transform.position, hit.point) < Vector2.Distance(transform.position, closestPoint))
+                    {
+                        closestPoint = hit.point;
+                    }
+                }
+
+                // Calculate the position to move the player to, considering the object's width
+                Vector2 newPosition = closestPoint;
+
+                // Move the player to the adjusted position
+                transform.position = newPosition;
+                print("new block pos: " + newPosition);
+                rb.constraints = RigidbodyConstraints2D.FreezePosition;
+                rb.freezeRotation = true;
+                break; // Stop iterating if any circlecast hits an object
+            }
+        }
+    }
     private void StickyLogic()
     {
         // Find all colliders within the stickDistance range
@@ -94,6 +130,17 @@ public class Blocks : MonoBehaviour
             rb.constraints &= ~RigidbodyConstraints2D.FreezePosition;
             rb.freezeRotation = true;
         }
+    }
+
+    private void MovingLogic()
+    {
+        /*if (!facingRight)
+        {
+            moveSpeed *= -1;
+        }*/
+        // move block position forward at a given speed
+        this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x + this.moveSpeed, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
+        //Debug.Log("moving direction: " + this.gameObject.transform.position);
     }
     
     private void StickToCollider(Collider2D collider)

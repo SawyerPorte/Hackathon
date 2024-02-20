@@ -54,6 +54,11 @@ public class Blocks : MonoBehaviour
         }
     }
 
+    public BlockType GetBlockType()
+    {
+        return this.blockType;
+    }
+
     private void StickyLogic()
     {
         // Find all colliders within the stickDistance range
@@ -90,7 +95,7 @@ public class Blocks : MonoBehaviour
             rb.freezeRotation = true;
         }
     }
-
+    
     private void StickToCollider(Collider2D collider)
     {
         // Get the closest point on the collider's surface to the object's current position

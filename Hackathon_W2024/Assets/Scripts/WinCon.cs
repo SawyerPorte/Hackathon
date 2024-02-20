@@ -36,20 +36,12 @@ public class WinCon : MonoBehaviour
     {
         if (zoom)
         {
-            StartCoroutine(cameraMove());
+            cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(target.x,target.y,cam.transform.position.z ),.0125f);
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3, speed);
             //cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(target.x, target.y, cam.transform.position.z), .0125f);
         }
     }
 
 
-    IEnumerator cameraMove()
-    {
-        while (cam.transform.position != target)
-        {
-            cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(target.x, target.y, cam.transform.position.z), .125f);
-        }
-        
-        yield return new WaitForSeconds(2);
-    }
+    
 }

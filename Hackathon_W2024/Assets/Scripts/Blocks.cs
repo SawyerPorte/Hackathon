@@ -7,6 +7,10 @@ public enum BlockType
     Normal,
     Bouncy,
     Sticky,
+    Moving,
+    Heavy,
+    Light,
+    Dump
     // Add more block types as needed
 }
 public class Blocks : MonoBehaviour
@@ -35,6 +39,17 @@ public class Blocks : MonoBehaviour
                 StickyLogic();
                 break;
             case BlockType.Bouncy:
+                break;
+            case BlockType.Moving:
+                break;
+            case BlockType.Heavy:
+                break;
+            case BlockType.Light:
+                break;
+            case BlockType.Dump:
+                break;
+            default:
+                Debug.Log("blockType Error");
                 break;
         }
     }

@@ -293,6 +293,15 @@ public class Player : MonoBehaviour
         }
     }
 
+    public GameObject GetPickedUpObject()
+    {
+        if (isHoldingObject)
+        {
+            return pickedUpObject;
+        }
+        else return null;
+    }
+    
     public bool FacingRight()
     {
         return facingRight;

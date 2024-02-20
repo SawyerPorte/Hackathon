@@ -26,8 +26,9 @@ public class Blocks : MonoBehaviour
 
     private Rigidbody2D rb;
     private Collider2D closestCollider;
-    Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+    Vector2[] directions = { Vector2.up, Vector2.left, Vector2.right };
     private bool facingRight = true;
+    private bool isStuck = false;
 
     private void Start()
     {
@@ -71,6 +72,7 @@ public class Blocks : MonoBehaviour
         {
             //RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, stickDistance, stickLayerMask);
             RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, .001f, direction, stickDistance, stickLayerMask);
+            Vector2 whichDir = Vector2.zero;
             if (hits.Length > 0)
             {
                 // Find the closest hit point
@@ -85,6 +87,18 @@ public class Blocks : MonoBehaviour
 
                 // Calculate the position to move the player to, considering the object's width
                 Vector2 newPosition = closestPoint;
+                if(closestPoint.x > 0)
+                {
+                    newPosition = newPosition + Vector2.left/2;
+                }
+                else if(closestPoint.x < 0)
+                {
+                    newPosition = newPosition + Vector2.right/2;
+                }
+                else if(closestPoint.y > 0)
+                {
+                    newPosition = newPosition + Vector2.down/2;
+                }
 
                 // Move the player to the adjusted position
                 transform.position = newPosition;
@@ -174,9 +188,28 @@ public class Blocks : MonoBehaviour
             // Apply a force in the bounce direction to the object
             rb.AddForce(newBounceForce, ForceMode2D.Impulse);
         }
+        if (collision.gameObject.CompareTag("StickyBlock"))
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezePosition;
+            rb.freezeRotation = true;
+            isStuck = true;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("StickyBlock"))
+        {
+            rb.constraints &= ~RigidbodyConstraints2D.FreezePosition;
+            rb.freezeRotation = true;
+            isStuck = false;
+        }
     }
     public float ReturnBounceForce()
     {
         return bounceForce;
+    }
+    public bool GetIsStuck()
+    {
+        return isStuck;
     }
 }

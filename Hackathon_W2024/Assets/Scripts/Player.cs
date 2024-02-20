@@ -78,9 +78,13 @@ public class Player : MonoBehaviour
         {
             ReturnClosestDropPoint();
             if (closestObject == null)
+            {
+                pickedUpObject.transform.parent = this.gameObject.transform;
                 pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
+            }
             else
             {
+                pickedUpObject.transform.parent = null;
                 pickedUpObject.transform.position = closestObject.transform.position;
                 pickedUpObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
                 pickedUpObject.GetComponent<Rigidbody2D>().freezeRotation = true;
@@ -181,14 +185,18 @@ public class Player : MonoBehaviour
                 // If no nearby objects on the specified layer, drop the object at the player's position
                 if (pickedUpObject.GetComponent<Blocks>().GetBlockType() == BlockType.Normal)
                 {
-                    pickedUpObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX;
+                    if (!pickedUpObject.GetComponent<Blocks>().GetIsStuck())
+                        pickedUpObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX;
                 } else if (pickedUpObject.GetComponent<Blocks>().GetBlockType() == BlockType.Light)
                 {
-                    pickedUpObject.GetComponent<Rigidbody2D>().constraints &= ~RigidbodyConstraints2D.FreezePosition;
+                    if (!pickedUpObject.GetComponent<Blocks>().GetIsStuck())
+                        pickedUpObject.GetComponent<Rigidbody2D>().constraints &= ~RigidbodyConstraints2D.FreezePosition;
                 }
                 pickedUpObject.GetComponent<Rigidbody2D>().freezeRotation = true;
-                pickedUpObject.transform.position = transform.position + (transform.right * (transform.localScale.x > 0 ? 1f : -1f)) * placeInFrontDistance;
+                if(!pickedUpObject.GetComponent<Blocks>().GetIsStuck())
+                    pickedUpObject.transform.position = transform.position + (transform.right * (transform.localScale.x > 0 ? 1f : -1f)) * placeInFrontDistance;
                 pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 2.5f;
+                pickedUpObject.transform.parent = null;
             }
 
             isHoldingObject = false;

@@ -226,8 +226,6 @@ public class Blocks : MonoBehaviour
         return isStuck;
     }
 
-    
-    
     public void Player1LastInteracted()
     {
         player1LastInteracted = true;

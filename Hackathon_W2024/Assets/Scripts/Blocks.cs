@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum BlockType
@@ -20,10 +21,12 @@ public class Blocks : MonoBehaviour
     [Header("Block specific vars")]
     [SerializeField] float bounceForce = 5;
     [SerializeField] float stickDistance = 1f;
+    [SerializeField] private float moveSpeed = 0.1f;
     [SerializeField] LayerMask stickLayerMask;
 
     private Rigidbody2D rb;
     private Collider2D closestCollider;
+    private bool facingRight = true;
 
     private void Start()
     {
@@ -41,6 +44,7 @@ public class Blocks : MonoBehaviour
             case BlockType.Bouncy:
                 break;
             case BlockType.Moving:
+                MovingLogic();
                 break;
             case BlockType.Heavy:
                 break;
@@ -54,6 +58,7 @@ public class Blocks : MonoBehaviour
         }
     }
 
+    // return block type
     public BlockType GetBlockType()
     {
         return this.blockType;
@@ -94,6 +99,17 @@ public class Blocks : MonoBehaviour
             rb.constraints &= ~RigidbodyConstraints2D.FreezePosition;
             rb.freezeRotation = true;
         }
+    }
+
+    private void MovingLogic()
+    {
+        /*if (!facingRight)
+        {
+            moveSpeed *= -1;
+        }*/
+        // move block position forward at a given speed
+        this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x + this.moveSpeed, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
+        //Debug.Log("moving direction: " + this.gameObject.transform.position);
     }
     
     private void StickToCollider(Collider2D collider)

@@ -170,7 +170,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8262720642851037818, guid: 9073f02377fe4b34498d25f9713d66cf, type: 3}
       propertyPath: moveSpeed
-      value: 0.1
+      value: 0.002
       objectReference: {fileID: 0}
     - target: {fileID: 9053269785680446648, guid: 9073f02377fe4b34498d25f9713d66cf, type: 3}
       propertyPath: m_RootOrder
@@ -178,11 +178,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9053269785680446648, guid: 9073f02377fe4b34498d25f9713d66cf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.95
+      value: -7.09
       objectReference: {fileID: 0}
     - target: {fileID: 9053269785680446648, guid: 9073f02377fe4b34498d25f9713d66cf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.01
+      value: 0.94
       objectReference: {fileID: 0}
     - target: {fileID: 9053269785680446648, guid: 9073f02377fe4b34498d25f9713d66cf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -218,7 +218,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9053269785680446651, guid: 9073f02377fe4b34498d25f9713d66cf, type: 3}
       propertyPath: m_Name
-      value: DefaultBlock (1)
+      value: MovingBlock
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9073f02377fe4b34498d25f9713d66cf, type: 3}
@@ -836,7 +836,7 @@ GameObject:
   - component: {fileID: 1654217762}
   m_Layer: 0
   m_Name: Player2
-  m_TagString: Untagged
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1002,7 +1002,7 @@ GameObject:
   - component: {fileID: 2069422854}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

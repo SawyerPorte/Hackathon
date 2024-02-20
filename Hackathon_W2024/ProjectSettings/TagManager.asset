@@ -8,6 +8,9 @@ TagManager:
   - PlaceArea
   - DefaultBlock
   - BouncyBlock
+  - StickyBlock
+  - Player1
+  - Player2
   layers:
   - Default
   - TransparentFX

@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     private float jumpCharge;
     private bool shakeCam = false;
     private int jumpsLeft = 1;
+    private bool facingRight;
 
     [Header("Block vars")]
     [SerializeField] LayerMask pickUpLayer;
@@ -78,9 +79,13 @@ public class Player : MonoBehaviour
         {
             ReturnClosestDropPoint();
             if (closestObject == null)
-                pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
+            {
+                pickedUpObject.transform.parent = this.gameObject.transform;
+                pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f; //transform.position + Vector3.up * 1.5f;
+            }
             else
             {
+                pickedUpObject.transform.parent = null;
                 pickedUpObject.transform.position = closestObject.transform.position;
                 pickedUpObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
                 pickedUpObject.GetComponent<Rigidbody2D>().freezeRotation = true;
@@ -99,11 +104,14 @@ public class Player : MonoBehaviour
 
             foreach (Collider2D collider in colliders)
             {
-                float distance = Vector2.Distance(transform.position, collider.transform.position);
-                if (distance < closestDistance)
+                if(collider.gameObject.GetComponent<Blocks>().GetBlockType() != BlockType.Heavy)
                 {
-                    closestObject = collider.gameObject;
-                    closestDistance = distance;
+                    float distance = Vector2.Distance(transform.position, collider.transform.position);
+                    if (distance < closestDistance)
+                    {
+                        closestObject = collider.gameObject;
+                        closestDistance = distance;
+                    }
                 }
             }
 
@@ -176,9 +184,48 @@ public class Player : MonoBehaviour
             else
             {
                 // If no nearby objects on the specified layer, drop the object at the player's position
-                pickedUpObject.GetComponent<Rigidbody2D>().constraints &= ~RigidbodyConstraints2D.FreezePosition;
-                pickedUpObject.transform.position = transform.position + (transform.right * (transform.localScale.x > 0 ? 1f : -1f)) * placeInFrontDistance;
-                pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+                if (pickedUpObject.GetComponent<Blocks>().GetBlockType() == BlockType.Normal)
+                {
+                    if (!pickedUpObject.GetComponent<Blocks>().GetIsStuck())
+                        pickedUpObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX;
+                } else if (pickedUpObject.GetComponent<Blocks>().GetBlockType() == BlockType.Light)
+                {
+                    if (!pickedUpObject.GetComponent<Blocks>().GetIsStuck())
+                        pickedUpObject.GetComponent<Rigidbody2D>().constraints &= ~RigidbodyConstraints2D.FreezePosition;
+                // Moving Block Behavior when dropped
+                } else if (pickedUpObject.GetComponent<Blocks>().GetBlockType() == BlockType.Moving)
+                {
+                    pickedUpObject.GetComponent<Rigidbody2D>().constraints &= ~RigidbodyConstraints2D.FreezePosition;
+                    
+                    // Send who last interacted with block
+                    if (this.gameObject.CompareTag("Player1"))
+                    {
+                        pickedUpObject.GetComponent<Blocks>().Player1LastInteracted();
+                    }
+                    else if (this.gameObject.CompareTag("Player2"))
+                    {
+                        pickedUpObject.GetComponent<Blocks>().Player2LastInteracted();
+                    }
+                    else
+                    {
+                        Debug.Log("Player Tag Not Defined");
+                    }
+                    
+                    // set direction the moving block should face
+                    if (FacingRight())
+                    {
+                        pickedUpObject.GetComponent<Blocks>().facingRight = true;
+                    }
+                    else
+                    {
+                        pickedUpObject.GetComponent<Blocks>().facingRight = false;
+                    }
+                }
+                pickedUpObject.GetComponent<Rigidbody2D>().freezeRotation = true;
+                if(!pickedUpObject.GetComponent<Blocks>().GetIsStuck())
+                    pickedUpObject.transform.position = transform.position + (transform.right * (transform.localScale.x > 0 ? 1f : -1f)) * placeInFrontDistance;
+                pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 2.5f;
+                pickedUpObject.transform.parent = null;
             }
 
             isHoldingObject = false;
@@ -194,11 +241,13 @@ public class Player : MonoBehaviour
         {
             moveInput = -1f;
             transform.localScale = new Vector3(-1f, 1f, 1f);
+            facingRight = false;
         }
         else if (Input.GetKey(rightKey))
         {
             moveInput = 1f;
             transform.localScale = new Vector3(1f, 1f, 1f);
+            facingRight = true;
         }
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
     }
@@ -239,4 +288,10 @@ public class Player : MonoBehaviour
             jumpsLeft--;
         }
     }
+
+    public bool FacingRight()
+    {
+        return facingRight;
+    }
+
 }

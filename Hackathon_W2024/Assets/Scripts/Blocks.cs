@@ -7,6 +7,10 @@ public enum BlockType
     Normal,
     Bouncy,
     Sticky,
+    Moving,
+    Heavy,
+    Light,
+    Dump
     // Add more block types as needed
 }
 public class Blocks : MonoBehaviour
@@ -28,8 +32,32 @@ public class Blocks : MonoBehaviour
     }
     private void Update()
     {
-        if(blockType == BlockType.Sticky)
-            StickyLogicV2();
+        switch (blockType)
+        {
+            case BlockType.Normal:
+                break;
+            case BlockType.Sticky:
+                StickyLogicV2();
+                break;
+            case BlockType.Bouncy:
+                break;
+            case BlockType.Moving:
+                break;
+            case BlockType.Heavy:
+                break;
+            case BlockType.Light:
+                break;
+            case BlockType.Dump:
+                break;
+            default:
+                Debug.Log("blockType Error");
+                break;
+        }
+    }
+
+    public BlockType GetBlockType()
+    {
+        return this.blockType;
     }
 
     private void StickyLogicV2()
@@ -98,7 +126,7 @@ public class Blocks : MonoBehaviour
             rb.freezeRotation = true;
         }
     }
-
+    
     private void StickToCollider(Collider2D collider)
     {
         // Get the closest point on the collider's surface to the object's current position

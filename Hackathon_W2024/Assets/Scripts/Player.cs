@@ -176,7 +176,13 @@ public class Player : MonoBehaviour
             else
             {
                 // If no nearby objects on the specified layer, drop the object at the player's position
-                pickedUpObject.GetComponent<Rigidbody2D>().constraints &= ~RigidbodyConstraints2D.FreezePosition;
+                if (pickedUpObject.GetComponent<Blocks>().GetBlockType() == BlockType.Normal)
+                {
+                    pickedUpObject.GetComponent<Rigidbody2D>().constraints &= RigidbodyConstraints2D.FreezePositionX;
+                } else if (pickedUpObject.GetComponent<Blocks>().GetBlockType() == BlockType.Light)
+                {
+                    pickedUpObject.GetComponent<Rigidbody2D>().constraints &= ~RigidbodyConstraints2D.FreezePosition;
+                }
                 pickedUpObject.transform.position = transform.position + (transform.right * (transform.localScale.x > 0 ? 1f : -1f)) * placeInFrontDistance;
                 pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 1;
             }

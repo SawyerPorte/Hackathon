@@ -178,11 +178,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9053269785680446648, guid: 9073f02377fe4b34498d25f9713d66cf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.19
+      value: 7.95
       objectReference: {fileID: 0}
     - target: {fileID: 9053269785680446648, guid: 9073f02377fe4b34498d25f9713d66cf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.49
+      value: -2.01
       objectReference: {fileID: 0}
     - target: {fileID: 9053269785680446648, guid: 9073f02377fe4b34498d25f9713d66cf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -856,7 +856,7 @@ MonoBehaviour:
   leftKey: 276
   rightKey: 275
   jumpKey: 273
-  pickUpKey: 101
+  pickUpKey: 305
   moveSpeed: 5
   groundLayers:
     serializedVersion: 2
@@ -985,7 +985,7 @@ Transform:
   m_Children:
   - {fileID: 1547817066}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2069422853
 GameObject:
@@ -1151,7 +1151,7 @@ Transform:
   m_Children:
   - {fileID: 1288163305}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1626366346559137315
 PrefabInstance:
@@ -1284,7 +1284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4563652583710083816, guid: f3f470be8e3fbec4cacd7c23cb3b9724, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.78
+      value: 1.12
       objectReference: {fileID: 0}
     - target: {fileID: 4563652583710083816, guid: f3f470be8e3fbec4cacd7c23cb3b9724, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1325,6 +1325,14 @@ PrefabInstance:
     - target: {fileID: 4563652583710083819, guid: f3f470be8e3fbec4cacd7c23cb3b9724, type: 3}
       propertyPath: m_Name
       value: StickyBlock
+      objectReference: {fileID: 0}
+    - target: {fileID: 4563652583710083819, guid: f3f470be8e3fbec4cacd7c23cb3b9724, type: 3}
+      propertyPath: m_TagString
+      value: StickyBlock
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738182295463154646, guid: f3f470be8e3fbec4cacd7c23cb3b9724, type: 3}
+      propertyPath: stickLayerMask.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3f470be8e3fbec4cacd7c23cb3b9724, type: 3}
@@ -1394,7 +1402,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5401908006731018800, guid: a5e530cc49362d94a8d1349fe1a5aa52, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5401908006731018800, guid: a5e530cc49362d94a8d1349fe1a5aa52, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1451,7 +1459,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9053269785680446648, guid: 9073f02377fe4b34498d25f9713d66cf, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 9053269785680446648, guid: 9073f02377fe4b34498d25f9713d66cf, type: 3}
       propertyPath: m_LocalPosition.x

@@ -37,13 +37,38 @@ public class Player : MonoBehaviour
 
     private ScreenShake camShake;
     private Rigidbody2D rb;
-    
+
+    // Animator
+    private Animator playerAnimator = null;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         camShake = Camera.main.GetComponent<ScreenShake>();
+
+        GameObject charModel = GameObject.Find("CharacterModel");
+        playerAnimator = charModel.GetComponent<Animator>();
+
+        if (playerAnimator != null)
+        {
+            // Set animator states
+            playerAnimator.SetBool("isMoving", false);
+            playerAnimator.SetBool("isJumping", false);
+            playerAnimator.SetBool("isFalling", false);
+        }
+        else
+        {
+            // Try again by including inactive GameObjects.
+            playerAnimator = GetComponentInChildren<Animator>(true);
+
+            if (playerAnimator != null)
+                // Set animator states
+                playerAnimator.SetBool("isMoving", false);
+                playerAnimator.SetBool("isJumping", false);
+                playerAnimator.SetBool("isFalling", false);
+        }
+
     }
 
     // Update is called once per frame
@@ -343,18 +368,29 @@ public class Player : MonoBehaviour
     {
         // Player movement
         float moveInput = 0f;
-        if (Input.GetKey(leftKey))
-        {
-            moveInput = -1f;
-            transform.localScale = new Vector3(-1f, 1f, 1f);
-            facingRight = false;
+
+        if (Input.GetKey(leftKey) || Input.GetKey(rightKey)) {
+            // Change animation state
+            playerAnimator.SetBool("isMoving", true);
+
+            if (Input.GetKey(leftKey))
+            {
+                moveInput = -1f;
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+                facingRight = false;
+            }
+            else if (Input.GetKey(rightKey))
+            {
+                moveInput = 1f;
+                transform.localScale = new Vector3(1f, 1f, 1f);
+                facingRight = true;
+            }
         }
-        else if (Input.GetKey(rightKey))
+        else
         {
-            moveInput = 1f;
-            transform.localScale = new Vector3(1f, 1f, 1f);
-            facingRight = true;
+            playerAnimator.SetBool("isMoving", false);
         }
+
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
     }
     private void JumpLogic()
@@ -364,6 +400,9 @@ public class Player : MonoBehaviour
 
         if (isGrounded)
         {
+            // Set animation state
+            playerAnimator.SetBool("isFalling", false);
+
             jumpsLeft = 1;
             if(rb.velocity.y < 0)
             {
@@ -388,6 +427,9 @@ public class Player : MonoBehaviour
         // Jumping
         if (Input.GetKeyUp(jumpKey) && jumpsLeft > 0)
         {
+            // Trigger jump animation
+            playerAnimator.SetBool("isJumping", true);
+
             rb.velocity = new Vector2(rb.velocity.x, jumpCharge + minJumpHeight);
             shakeCam = true;
             jumpCharge = 0f;

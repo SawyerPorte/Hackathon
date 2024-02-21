@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask pickUpLayer;
     [SerializeField] LayerMask dropLayer;
     [SerializeField] float pickUpDistance = 2f;
+    [SerializeField] Animator animator;
     [Tooltip("how much in front of the player the block will be placed")] [SerializeField] float placeInFrontDistance = 1f;
 
     private GameObject pickedUpObject; // The object currently picked up
@@ -47,8 +48,8 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         camShake = Camera.main.GetComponent<ScreenShake>();
 
-        GameObject charModel = GameObject.Find("CharacterModel");
-        playerAnimator = charModel.GetComponent<Animator>();
+        //GameObject charModel = GameObject.Find("CharacterModel");
+        playerAnimator = animator;
 
         if (playerAnimator != null)
         {
@@ -371,8 +372,10 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(leftKey) || Input.GetKey(rightKey)) {
             // Change animation state
+            
             playerAnimator.SetBool("isMoving", true);
-
+            
+           
             if (Input.GetKey(leftKey))
             {
                 moveInput = -1f;
@@ -393,17 +396,33 @@ public class Player : MonoBehaviour
 
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
     }
+
     private void JumpLogic()
     {
         // Check if player is grounded
-        isGrounded = Physics2D.OverlapCircle(transform.position, 0.8f, groundLayers);
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down,.8f, groundLayers);
+        Debug.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y - .8f), Color.red);
+
+        if(rb.velocity.y < 0)
+        {
+            playerAnimator.SetBool("isFalling", true);
+        }
 
         if (isGrounded)
         {
             // Set animation state
+            //playerAnimator.SetBool("isFalling", true);
             playerAnimator.SetBool("isFalling", false);
+            
+            print("set falling");
 
-            jumpsLeft = 1;
+
+            if(rb.velocity.y <= 0)
+            {
+                playerAnimator.SetBool("Grounded", true);
+                jumpsLeft = 1;
+            }
+            
             if(rb.velocity.y < 0)
             {
                 // Check if cameraShake is not null to avoid errors
@@ -428,9 +447,15 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(jumpKey) && jumpsLeft > 0)
         {
             // Trigger jump animation
-            playerAnimator.SetBool("isJumping", true);
+           
+            if(rb.velocity.y == 0)
+            {
+                playerAnimator.SetTrigger("isJumpingTrigger");
+            }
+            
 
             rb.velocity = new Vector2(rb.velocity.x, jumpCharge + minJumpHeight);
+            playerAnimator.SetBool("Grounded", false);
             shakeCam = true;
             jumpCharge = 0f;
             jumpsLeft--;

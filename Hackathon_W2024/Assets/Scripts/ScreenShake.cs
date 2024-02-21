@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ScreenShake : MonoBehaviour
 {
     [SerializeField] float shakeDuration = 0.5f;
+    [SerializeField] Player player;
+    WinCon win;
 
     private Vector3 originalPosition;
     private float shakeTimeRemaining = 0f;
@@ -12,6 +15,7 @@ public class ScreenShake : MonoBehaviour
     void Start()
     {
         originalPosition = transform.localPosition;
+        win = player.GetComponent<WinCon>();
     }
 
     void Update()
@@ -22,7 +26,7 @@ public class ScreenShake : MonoBehaviour
 
             shakeTimeRemaining -= Time.deltaTime;
         }
-        else
+        else if(win.zoom == false)
         {
             shakeTimeRemaining = 0f;
             transform.localPosition = originalPosition;

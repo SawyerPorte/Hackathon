@@ -8,7 +8,7 @@ public class WinCon : MonoBehaviour
     [SerializeField] Camera cam;
     public float speed;
     Vector3 target;
-    [SerializeField] bool zoom;
+    public bool zoom;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +19,14 @@ public class WinCon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (zoom)
+        {
+
+            cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(target.x, target.y, cam.transform.position.z), .0125f);
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3, speed);
+            
+            //cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(target.x, target.y, cam.transform.position.z), .0125f);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -29,17 +36,14 @@ public class WinCon : MonoBehaviour
             print("you win");
             zoom = true;
             target = transform.position;
+            StartCoroutine(EndLevel());
         }
     }
 
-    private void LateUpdate()
+    IEnumerator EndLevel()
     {
-        if (zoom)
-        {
-            cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(target.x,target.y,cam.transform.position.z ),.0125f);
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3, speed);
-            //cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(target.x, target.y, cam.transform.position.z), .0125f);
-        }
+        yield return new WaitForSeconds(3);
+        print("switch level");
     }
 
 

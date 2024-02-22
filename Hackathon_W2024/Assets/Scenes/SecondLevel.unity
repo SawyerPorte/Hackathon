@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 958629643}
-  speed: 0.0125
+  speed: 0.00125
   zoom: 0
 --- !u!114 &897008056 stripped
 MonoBehaviour:

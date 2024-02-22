@@ -375,7 +375,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 192
-  maxJumpHeight: 9
+  maxJumpHeight: 3
   minJumpHeight: 6.5
   chargeRate: 9
   hiddenBoxCollider: {fileID: 3247030138415302476}

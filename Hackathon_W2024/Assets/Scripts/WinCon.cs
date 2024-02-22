@@ -22,8 +22,8 @@ public class WinCon : MonoBehaviour
         if (zoom)
         {
 
-            cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(target.x, target.y, cam.transform.position.z), .0125f);
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3, speed);
+            cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(target.x, target.y, cam.transform.position.z), speed/1.1f *Time.deltaTime);
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 3, speed * Time.deltaTime);
             
             //cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(target.x, target.y, cam.transform.position.z), .0125f);
         }

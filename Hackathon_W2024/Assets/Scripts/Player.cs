@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask dropLayer;
     [SerializeField] float pickUpDistance = 2f;
     [SerializeField] Animator animator;
+    [SerializeField] float holdHeight = .5f;
     [Tooltip("how much in front of the player the block will be placed")] [SerializeField] float placeInFrontDistance = 1f;
 
     private GameObject pickedUpObject; // The object currently picked up
@@ -151,7 +153,7 @@ public class Player : MonoBehaviour
                 if (pickedUpObject.transform.parent == null)
                 {
                     pickedUpObject.transform.parent = this.gameObject.transform;
-                    pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
+                    pickedUpObject.transform.position = transform.position + Vector3.up * holdHeight;
 
                 }
                 
@@ -168,6 +170,7 @@ public class Player : MonoBehaviour
 
     private void PickUpObject()
     {
+
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickUpDistance, pickUpLayer);
 
         if (colliders.Length > 0)
@@ -191,11 +194,13 @@ public class Player : MonoBehaviour
             // Move the closest object above the player
             if (closestObject != null)
             {
+                playerAnimator.SetTrigger("PickUpTrigger");
+                playerAnimator.SetBool("PickUp", true);
                 pickedUpObject = closestObject;
                 isHoldingObject = true;
                 pickedUpObject.GetComponent<Rigidbody2D>().gravityScale = 0;
                 pickedUpObject.GetComponent<Rigidbody2D>().constraints &= ~RigidbodyConstraints2D.FreezePosition;
-                pickedUpObject.transform.position = transform.position + Vector3.up * 1.5f;
+                pickedUpObject.transform.position = transform.position + Vector3.up * holdHeight;
                 pickedUpObject.GetComponent<BoxCollider2D>().isTrigger = true;
                 pickedUpObject.GetComponent<Rigidbody2D>().isKinematic = true;
                 hiddenBoxCollider.SetActive(true);
@@ -309,6 +314,7 @@ public class Player : MonoBehaviour
             isHoldingObject = false;
             pickedUpObject = null;
         }
+        playerAnimator.SetBool("PickUp", false);
     }
 
     /// <summary>

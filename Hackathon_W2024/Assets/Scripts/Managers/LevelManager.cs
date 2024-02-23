@@ -63,7 +63,10 @@ public class LevelManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        string sceneName = "Level" + (_level + 1).ToString();
+        PlayerPrefs.SetInt("LevelProgress", ++_level);
+
+        string sceneName = "Level" + (PlayerPrefs.GetInt("LevelProgress")).ToString();
+        Debug.Log("loading level " + _level + " saved as " + PlayerPrefs.GetInt("LevelProgress"));
         SceneManager.LoadScene(sceneName);
         //LoadScene(sceneName);
     }

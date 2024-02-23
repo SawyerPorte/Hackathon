@@ -179,7 +179,6 @@ public class Player : MonoBehaviour
         //SoundManager.Instance.PlayGameSound("PickUp");
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickUpDistance, pickUpLayer);
-
         if (colliders.Length > 0)
         {
             GameObject closestObject = null;

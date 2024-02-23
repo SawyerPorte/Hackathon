@@ -11,7 +11,8 @@ public enum BlockType
     Moving,
     Heavy,
     Light,
-    Dump
+    Dump,
+    Unpassable
     // Add more block types as needed
 }
 public class Blocks : MonoBehaviour
@@ -35,6 +36,10 @@ public class Blocks : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        if (blockType == BlockType.Unpassable)
+        {
+            Physics2D.IgnoreLayerCollision(gameObject.layer, 7);
+        }
     }
     private void Update()
     {
@@ -55,6 +60,8 @@ public class Blocks : MonoBehaviour
             case BlockType.Light:
                 break;
             case BlockType.Dump:
+                break;
+            case BlockType.Unpassable:
                 break;
             default:
                 Debug.Log("blockType Error");

@@ -24,6 +24,7 @@ public class Blocks : MonoBehaviour
     [SerializeField] float stickDistance = 1f;
     [SerializeField] private float moveSpeed = 0.02f;
     [SerializeField] LayerMask stickLayerMask;
+    [SerializeField] private Animator blockAnimator;
 
     private Rigidbody2D rb;
     private Collider2D closestCollider;
@@ -41,6 +42,7 @@ public class Blocks : MonoBehaviour
             Physics2D.IgnoreLayerCollision(gameObject.layer, 7);
         }
     }
+
     private void Update()
     {
         switch (blockType)

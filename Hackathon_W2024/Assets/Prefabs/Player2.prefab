@@ -367,10 +367,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75326e9cf690874fbbf270fb9b5a692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  whichLevel: 0
   leftKey: 276
   rightKey: 275
-  jumpKey: 273
-  pickUpKey: 305
+  jumpKey: 305
+  pickUpKey: 303
   moveSpeed: 6
   groundLayers:
     serializedVersion: 2

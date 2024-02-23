@@ -337,6 +337,9 @@ public class Player : MonoBehaviour
         {
             if (currentLockRef.GetComponent<LockBlock>().RecieveSubmission(pickedUpObject))
             {
+                // Set pickup to false
+                playerAnimator.SetBool("PickUp", false);
+
                 // Visually remove the object
                 Destroy(pickedUpObject);
                 pickedUpObject = null;
@@ -367,6 +370,9 @@ public class Player : MonoBehaviour
             // check if object is null
             if (currentLockRef.GetComponent<LockBlock>().ReturnSubmission())
             {
+                // Set pickup to false
+                //playerAnimator.SetBool("PickUp", true);
+
                 //TODO: Needs better way to give player block type back
                 pickedUpObject = Instantiate(currentLockRef.GetComponent<LockBlock>().ReturnSubmission());
                 pickedUpObject.SetActive(true);

@@ -282,7 +282,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 466093240}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2002786396}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayUISound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ButtonSelect
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &466093240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,9 +503,21 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
           m_FloatArgument: 0
-          m_StringArgument: Level 1
+          m_StringArgument: Level1
           m_BoolArgument: 0
         m_CallState: 1
+      - m_Target: {fileID: 2002786396}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayUISound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ButtonSelect
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &864252773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -760,6 +784,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2002786396}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: PlayUISound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ButtonSelect
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1036771334
@@ -1915,6 +1951,7 @@ GameObject:
   - component: {fileID: 2002786392}
   - component: {fileID: 2002786394}
   - component: {fileID: 2002786395}
+  - component: {fileID: 2002786396}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1979,6 +2016,24 @@ MonoBehaviour:
   _mainCanvas: {fileID: 1168319852}
   _loaderCanvas: {fileID: 6320288565202705255, guid: 96329532a2f08fc4fa42b9ed0e0775b8, type: 3}
   _progressBar: {fileID: 2130328705}
+--- !u!114 &2002786396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002786391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48335c2b2d25e00448df88a1fd7dd671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioMixer: {fileID: 24100000, guid: 3266a82152a7d0544b52110983a99e12, type: 2}
+  _voiceSource: {fileID: 0}
+  _gameSoundSource: {fileID: 0}
+  _soundEffectSource: {fileID: 0}
+  _musicSource: {fileID: 0}
+  SoundSourcePrefab: {fileID: 2135041700759360900, guid: fac488c6896b20a4ca5a32c8c8cf25da, type: 3}
 --- !u!1001 &2130328704
 PrefabInstance:
   m_ObjectHideFlags: 0

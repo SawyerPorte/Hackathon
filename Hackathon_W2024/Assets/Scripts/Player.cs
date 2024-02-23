@@ -170,6 +170,8 @@ public class Player : MonoBehaviour
 
     private void PickUpObject()
     {
+        // play pick up sound
+        //SoundManager.Instance.PlayGameSound("PickUp");
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickUpDistance, pickUpLayer);
 
@@ -231,6 +233,9 @@ public class Player : MonoBehaviour
     }
     private void DropObject()
     {
+        // play pick up sound
+        //SoundManager.Instance.PlayGameSound("PickUp");
+
         if (pickedUpObject != null)
         {
             // Check for nearby objects on the specified layer
@@ -452,6 +457,9 @@ public class Player : MonoBehaviour
         // Jumping
         if (Input.GetKeyUp(jumpKey) && jumpsLeft > 0)
         {
+            // Trigger jump sound
+            SoundManager.Instance.PlayGameSound("Jump");
+
             // Trigger jump animation
            
             if(rb.velocity.y == 0)

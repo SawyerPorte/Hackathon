@@ -483,7 +483,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 192
-  maxJumpHeight: 9
+  maxJumpHeight: 3
   minJumpHeight: 6.5
   chargeRate: 9
   hiddenBoxCollider: {fileID: 3247030138415302476}
@@ -494,7 +494,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   pickUpDistance: 2
-  animator: {fileID: 0}
+  animator: {fileID: 7773648623743414489}
   holdHeight: 0.5
   placeInFrontDistance: 1
   isNearLock: 0

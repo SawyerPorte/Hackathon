@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     public static UIManager UIManager { get; private set; } = null;
 
+    public static SoundManager SoundManager { get; private set; } = null;
+
     public void Awake()
     {
         if (Instance == null)
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
         // Collect all the components attached to this game object
         LevelManager = GetComponent<LevelManager>();
         UIManager = GetComponent<UIManager>();
+        SoundManager = GetComponent<SoundManager>();
     }
 
     public void SavePrefs()

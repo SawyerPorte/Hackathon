@@ -65,7 +65,7 @@ public class WinCon : MonoBehaviour
     IEnumerator EndLevel()
     {
         yield return new WaitForSeconds(3);      
-        levelManager.SetCurrentLevel(PlayerPrefs.GetInt("LevelProgress"));
+        //levelManager.SetCurrentLevel(PlayerPrefs.GetInt("LevelProgress"));
         levelManager.LoadNextLevel();
         
         print("switch level");

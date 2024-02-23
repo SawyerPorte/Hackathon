@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.CompareTag("LockBlock") && !isNearLock)
         {
-            Debug.Log("stepping into range");
+            //Debug.Log("stepping into range");
             currentLockRef = collision.gameObject;
             isNearLock = true;
         }
@@ -114,7 +114,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("LockBlock") && isNearLock)
         {
-            Debug.Log("stepping out of range");
+            //Debug.Log("stepping out of range");
             currentLockRef = null;
             isNearLock = false;
         }
@@ -429,7 +429,7 @@ public class Player : MonoBehaviour
             //playerAnimator.SetBool("isFalling", true);
             playerAnimator.SetBool("isFalling", false);
             
-            print("set falling");
+            //print("set falling");
 
 
             if(rb.velocity.y <= 0)

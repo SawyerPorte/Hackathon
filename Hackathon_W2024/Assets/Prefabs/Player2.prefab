@@ -185,7 +185,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 683105408, guid: 6059a1f029d94724295b8da2b32f58fd, type: 3}
+  m_Sprite: {fileID: 89400857, guid: 13b756d5d6038c94cbe86ed90b6d7228, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -206,7 +206,7 @@ Animator:
   m_GameObject: {fileID: 5684506149870667205}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 00c5aba8f6dc7934999b3684df4da572, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4d7743b5a88ad9d429da773e83f76f56, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 6444740599700294030}
   - component: {fileID: 7212954689884673101}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -367,10 +367,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75326e9cf690874fbbf270fb9b5a692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftKey: 97
-  rightKey: 100
-  jumpKey: 32
-  pickUpKey: 101
+  leftKey: 276
+  rightKey: 275
+  jumpKey: 273
+  pickUpKey: 305
   moveSpeed: 6
   groundLayers:
     serializedVersion: 2

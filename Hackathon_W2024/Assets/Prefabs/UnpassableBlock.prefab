@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9053269785680446650}
   - component: {fileID: 9053269785680446631}
   - component: {fileID: -8262720642851037818}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: UnpassableBlock
   m_TagString: UnpassableBlock
   m_Icon: {fileID: 0}
@@ -153,4 +153,5 @@ MonoBehaviour:
   stickLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  blockAnimator: {fileID: 0}
   facingRight: 1

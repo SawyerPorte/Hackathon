@@ -15,7 +15,7 @@ using UnityEngine;
 /// </summary>
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager Instance { get; private set; }
+    public static SoundManager Instance => GameManager.SoundManager;
 
     [Header("Primary Audio Components")]
     [SerializeField] private AudioMixer _audioMixer = null;
@@ -35,6 +35,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField, Tooltip("Sound bank for background music")]
     private Dictionary<string, AudioClip> MusicBank = new Dictionary<string, AudioClip>();
 
+    [SerializeField]
+    private GameObject SoundSourcePrefab;
+    private GameObject _soundSourceRef;
+
     // Check whether current music is paused or not
     private bool isPaused = false;
 
@@ -43,15 +47,6 @@ public class SoundManager : MonoBehaviour
 
     public void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(Instance);
-        }
-        else
-        {
-            Instance = this;
-        }
-
         // Load all sound banks from resources
         AudioClip[] clipLoader = null;
 
@@ -80,24 +75,31 @@ public class SoundManager : MonoBehaviour
 
     public void Start()
     {
-        //TODO: establish sound settings to maintain between scenes
         if (!_audioMixer)
         {
             Debug.LogError("AudioMixer not assigned");
         }
 
+        // Maintain sound sources between scenes
+        _soundSourceRef = Instantiate(SoundSourcePrefab);
+        AudioSource[] sources = _soundSourceRef.GetComponentsInChildren<AudioSource>();
+        _gameSoundSource = sources[0];
+        _soundEffectSource = sources[1];
+        _musicSource = sources[2];
+        _voiceSource = sources[3];
+
         // Set volume
         _gameSoundSource.volume = 1f;
         _soundEffectSource.volume = 1f;
         _voiceSource.volume = 1f;
-        _musicSource.volume = 0.1f;
+        _musicSource.volume = 0.25f;
 
         // Setup BGM
-        //_musicSource.clip = MusicBank["example song"];
-        //_musicSource.loop = true;
+        _musicSource.clip = MusicBank["MenuBGM"];
+        _musicSource.loop = true;
 
         // Start the main background music
-        //StartMusic(MusicBank["example song"]);
+        StartMusic(MusicBank["MenuBGM"]);
     }
 
     // ============================================================================================

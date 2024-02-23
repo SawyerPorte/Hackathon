@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WinCon : MonoBehaviour
 {
     [SerializeField] Camera cam;
     public float speed;
+    private int level;
     Vector3 target;
     public bool zoom;
     Animator endingAnimator;
-    [SerializeField] SpriteRenderer player;
+    LevelManager levelManager;
+    [SerializeField] SpriteRenderer playerOneSprite;
+    [SerializeField] SpriteRenderer playerTwoSprite;
     [SerializeField] GameObject endingSprite;
     [SerializeField] GameObject playerTwo;
     [SerializeField] GameObject playerOne;
@@ -20,6 +24,7 @@ public class WinCon : MonoBehaviour
         cam = Camera.main;
         zoom = false;
         endingAnimator = endingSprite.GetComponent<Animator>();
+        levelManager = GameObject.Find("Managers").GetComponent<LevelManager>();
         
     }
 
@@ -42,9 +47,10 @@ public class WinCon : MonoBehaviour
         {
             print("you win");
             zoom = true;
-            player.enabled = false;
+            
             endingSprite.SetActive(true);
-
+            playerOneSprite.enabled = false;
+            playerTwoSprite.enabled = false;
             if(playerTwo.transform.position.x > playerOne.transform.position.x)
             {
                 endingSprite.GetComponent<SpriteRenderer>().flipX = true;
@@ -58,7 +64,10 @@ public class WinCon : MonoBehaviour
 
     IEnumerator EndLevel()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3);      
+        levelManager.SetCurrentLevel(PlayerPrefs.GetInt("LevelProgress"));
+        levelManager.LoadNextLevel();
+        
         print("switch level");
     }
 

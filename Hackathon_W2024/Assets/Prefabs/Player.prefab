@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 7288778564526770398}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -529,8 +529,11 @@ MonoBehaviour:
   cam: {fileID: 0}
   speed: 0.75
   zoom: 0
-  player: {fileID: 0}
-  endingSprite: {fileID: 0}
+  playerOneSprite: {fileID: 4609308898783496599}
+  playerTwoSprite: {fileID: 0}
+  endingSprite: {fileID: 5203274766174971989}
+  playerTwo: {fileID: 0}
+  playerOne: {fileID: 6444740599700294029}
 --- !u!1 &6444740600548009312
 GameObject:
   m_ObjectHideFlags: 0

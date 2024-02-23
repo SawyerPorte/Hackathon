@@ -9,11 +9,18 @@ public class WinCon : MonoBehaviour
     public float speed;
     Vector3 target;
     public bool zoom;
+    Animator endingAnimator;
+    [SerializeField] SpriteRenderer player;
+    [SerializeField] GameObject endingSprite;
+    [SerializeField] GameObject playerTwo;
+    [SerializeField] GameObject playerOne;
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
         zoom = false;
+        endingAnimator = endingSprite.GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -35,6 +42,15 @@ public class WinCon : MonoBehaviour
         {
             print("you win");
             zoom = true;
+            player.enabled = false;
+            endingSprite.SetActive(true);
+
+            if(playerTwo.transform.position.x > playerOne.transform.position.x)
+            {
+                endingSprite.GetComponent<SpriteRenderer>().flipX = true;
+            }
+
+            endingAnimator.SetTrigger("End");
             target = transform.position;
             StartCoroutine(EndLevel());
         }

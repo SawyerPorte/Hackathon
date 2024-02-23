@@ -458,7 +458,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(jumpKey) && jumpsLeft > 0)
         {
             // Trigger jump sound
-            //SoundManager.Instance.PlayGameSound("Jump");
+            SoundManager.Instance.PlayGameSound("Jump");
 
             // Trigger jump animation
            

@@ -47,6 +47,17 @@ public class SoundManager : MonoBehaviour
 
     public void Awake()
     {
+
+        // Maintain sound sources between scenes
+        _soundSourceRef = Instantiate(SoundSourcePrefab);
+        AudioSource[] sources = _soundSourceRef.GetComponentsInChildren<AudioSource>();
+        _gameSoundSource = sources[0];
+        _soundEffectSource = sources[1];
+        _musicSource = sources[2];
+        _voiceSource = sources[3];
+
+        DontDestroyOnLoad(_soundSourceRef);
+
         // Load all sound banks from resources
         AudioClip[] clipLoader = null;
 
@@ -79,14 +90,6 @@ public class SoundManager : MonoBehaviour
         {
             Debug.LogError("AudioMixer not assigned");
         }
-
-        // Maintain sound sources between scenes
-        _soundSourceRef = Instantiate(SoundSourcePrefab);
-        AudioSource[] sources = _soundSourceRef.GetComponentsInChildren<AudioSource>();
-        _gameSoundSource = sources[0];
-        _soundEffectSource = sources[1];
-        _musicSource = sources[2];
-        _voiceSource = sources[3];
 
         // Set volume
         _gameSoundSource.volume = 1f;

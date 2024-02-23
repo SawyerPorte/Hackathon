@@ -25,7 +25,11 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        _progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, _target, 3 * Time.deltaTime);
+        if(_progressBar!= null)
+        {
+            _progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, _target, 3 * Time.deltaTime);
+        }
+        
     }
 
     public async void LoadScene(string sceneName)
@@ -33,7 +37,11 @@ public class LevelManager : MonoBehaviour
         print("loading scene");
 
         _target = 0;
-        _progressBar.fillAmount = 0;
+        if (_progressBar != null)
+        {
+            _progressBar.fillAmount = 0;
+        }
+       
 
         var scene = SceneManager.LoadSceneAsync(sceneName);
         scene.allowSceneActivation = false;
@@ -55,8 +63,9 @@ public class LevelManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        string sceneName = "Level" + _level.ToString();
-        LoadScene(sceneName);
+        string sceneName = "Level" + (_level + 1).ToString();
+        SceneManager.LoadScene(sceneName);
+        //LoadScene(sceneName);
     }
 
     public int GetCurrentLevel()
@@ -67,5 +76,6 @@ public class LevelManager : MonoBehaviour
     public void SetCurrentLevel(int level)
     {
         _level = level;
+        print(_level);
     }
 }

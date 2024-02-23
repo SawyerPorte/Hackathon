@@ -2,18 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WinCon : MonoBehaviour
 {
     [SerializeField] Camera cam;
     public float speed;
+    private int level;
     Vector3 target;
     public bool zoom;
+    Animator endingAnimator;
+    LevelManager levelManager;
+    [SerializeField] SpriteRenderer playerOneSprite;
+    [SerializeField] SpriteRenderer playerTwoSprite;
+    [SerializeField] GameObject endingSprite;
+    [SerializeField] GameObject playerTwo;
+    [SerializeField] GameObject playerOne;
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
         zoom = false;
+        endingAnimator = endingSprite.GetComponent<Animator>();
+        levelManager = GameObject.Find("Managers").GetComponent<LevelManager>();
+        
     }
 
     // Update is called once per frame
@@ -35,6 +47,16 @@ public class WinCon : MonoBehaviour
         {
             print("you win");
             zoom = true;
+            
+            endingSprite.SetActive(true);
+            playerOneSprite.enabled = false;
+            playerTwoSprite.enabled = false;
+            if(playerTwo.transform.position.x > playerOne.transform.position.x)
+            {
+                endingSprite.GetComponent<SpriteRenderer>().flipX = true;
+            }
+
+            endingAnimator.SetTrigger("End");
             target = transform.position;
             StartCoroutine(EndLevel());
         }
@@ -42,7 +64,10 @@ public class WinCon : MonoBehaviour
 
     IEnumerator EndLevel()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3);      
+        levelManager.SetCurrentLevel(PlayerPrefs.GetInt("LevelProgress"));
+        levelManager.LoadNextLevel();
+        
         print("switch level");
     }
 

@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockType: 1
-  bounceForce: 5
+  bounceForce: 10
   stickDistance: 1
   moveSpeed: 0.02
   stickLayerMask:

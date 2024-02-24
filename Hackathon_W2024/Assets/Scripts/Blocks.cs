@@ -204,8 +204,14 @@ public class Blocks : MonoBehaviour
         {
             // Calculate the direction of the bounce (normal of the collision)
             Vector2 bounceDirection = collision.contacts[0].normal;
+
+            Blocks blocksComponent;
+            Vector2 newBounceForce = Vector2.zero;
+            if (collision.gameObject.TryGetComponent(out blocksComponent))
+            {
+                newBounceForce = bounceDirection * blocksComponent.ReturnBounceForce() * rb.mass;
+            }
             
-            Vector2 newBounceForce = bounceDirection * collision.gameObject.GetComponent<Blocks>().ReturnBounceForce() * rb.mass;
             print("block BOUNCE: " + newBounceForce);
             // Apply a force in the bounce direction to the object
            

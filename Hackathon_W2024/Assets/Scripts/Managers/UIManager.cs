@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
         //currentCanvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         //levelText = currentCanvas.GetComponent<TMP_Text>();
 
-        creditsText.SetActive(false);
+        //creditsText.SetActive(false);
     }
 
     public void Update()

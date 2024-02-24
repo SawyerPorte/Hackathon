@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     [SerializeField] int whichLevel;
+    [SerializeField] bool airControl = true;
 
     [SerializeField] KeyCode leftKey, rightKey, jumpKey, pickUpKey;
     [Header("Movement vars")]
@@ -85,7 +86,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         JumpLogic();
-        if (!shakeCam)
+        if (!shakeCam || airControl)
         {
             MoveLogic();
         }
@@ -201,7 +202,7 @@ public class Player : MonoBehaviour
 
             foreach (Collider2D collider in colliders)
             {
-                if(collider.gameObject.GetComponent<Blocks>().GetBlockType() != BlockType.Heavy)
+                if(collider.gameObject.GetComponent<Blocks>().GetBlockType() != BlockType.Heavy && !collider.gameObject.GetComponent<Blocks>().GetHeld())
                 {
                     float distance = Vector2.Distance(transform.position, collider.transform.position);
                     if (distance < closestDistance)
@@ -225,6 +226,7 @@ public class Player : MonoBehaviour
                 pickedUpObject.GetComponent<BoxCollider2D>().isTrigger = true;
                 pickedUpObject.GetComponent<Rigidbody2D>().isKinematic = true;
                 hiddenBoxCollider.SetActive(true);
+                pickedUpObject.GetComponent<Blocks>().SetHeld(true);
             }
         }
     }
@@ -254,8 +256,12 @@ public class Player : MonoBehaviour
     {
         // play pick up sound
         //SoundManager.Instance.PlayGameSound("PickUp");
+        Vector2 playerPosition = transform.position + new Vector3(0,-.25f,0);
+        Vector2 playerForward = transform.right; // Assuming right is the forward direction in 2D
 
-        if (pickedUpObject != null)
+        // Perform the raycast
+        RaycastHit2D hit = Physics2D.Raycast(playerPosition, playerForward, placeInFrontDistance, groundLayers);
+        if (pickedUpObject != null && hit.collider == null)
         {
             // Check for nearby objects on the specified layer
             //Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickUpDistance, dropLayer);
@@ -334,6 +340,7 @@ public class Player : MonoBehaviour
             }
             pickedUpObject.GetComponent<Rigidbody2D>().isKinematic = false;
             pickedUpObject.GetComponent<BoxCollider2D>().isTrigger = false;
+            pickedUpObject.GetComponent<Blocks>().SetHeld(false);
             hiddenBoxCollider.SetActive(false);
             isHoldingObject = false;
             pickedUpObject = null;
@@ -429,8 +436,15 @@ public class Player : MonoBehaviour
         {
             playerAnimator.SetBool("isMoving", false);
         }
-
-        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+        if (shakeCam)
+        {
+            rb.velocity = new Vector2(moveInput * (moveSpeed / 2), rb.velocity.y);
+        }
+        else
+        {
+            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+        }
+        
     }
 
     private void JumpLogic()

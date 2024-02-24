@@ -33,6 +33,7 @@ public class Blocks : MonoBehaviour
     private bool isStuck = false;
     private bool player1LastInteracted = false;
     private bool player2LastInteracted = false;
+    private bool held = false;
 
     private void Start()
     {
@@ -76,7 +77,14 @@ public class Blocks : MonoBehaviour
     {
         return this.blockType;
     }
-
+    public bool GetHeld()
+    {
+        return held;
+    }
+    public void SetHeld(bool newVal)
+    {
+        held = newVal;
+    }
     private void StickyLogicV2()
     {
         foreach (Vector2 direction in directions)

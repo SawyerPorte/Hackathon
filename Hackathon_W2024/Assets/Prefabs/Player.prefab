@@ -475,6 +475,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75326e9cf690874fbbf270fb9b5a692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  whichLevel: 0
+  airControl: 1
   leftKey: 97
   rightKey: 100
   jumpKey: 32
@@ -496,7 +498,7 @@ MonoBehaviour:
   pickUpDistance: 2
   animator: {fileID: 7773648623743414489}
   holdHeight: 0.5
-  placeInFrontDistance: 1
+  placeInFrontDistance: 0.5
   isNearLock: 0
 --- !u!58 &7212954689884673101
 CircleCollider2D:

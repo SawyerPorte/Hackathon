@@ -22,12 +22,14 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
 
         // Collect all the components attached to this game object
         LevelManager = GetComponent<LevelManager>();
         UIManager = GetComponent<UIManager>();
         SoundManager = GetComponent<SoundManager>();
+        PlayerPrefs.DeleteAll();
     }
 
     public void SavePrefs()

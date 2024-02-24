@@ -24,6 +24,10 @@ public class LevelManager : MonoBehaviour
         _level = PlayerPrefs.GetInt("LevelProgress", 0);
         //levelText.text = _level.ToString();
     }
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 
     private void Update()
     {

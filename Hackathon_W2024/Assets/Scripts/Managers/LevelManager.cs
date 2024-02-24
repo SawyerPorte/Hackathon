@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        _level = PlayerPrefs.GetInt("LevelProgress", 0);
+        _level = PlayerPrefs.GetInt("LevelProgress", 10);
         //levelText.text = _level.ToString();
     }
 

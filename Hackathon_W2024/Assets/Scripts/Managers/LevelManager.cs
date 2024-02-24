@@ -35,7 +35,10 @@ public class LevelManager : MonoBehaviour
         {
             _progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, _target, 3 * Time.deltaTime);
         }
-        
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            loadLevel();
+        }
     }
 
     public async void LoadScene(string sceneName)
@@ -83,16 +86,20 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            string sceneName = "Level" + (PlayerPrefs.GetInt("LevelProgress")).ToString();
-            //Debug.Log("loading level " + _level + " saved as " + PlayerPrefs.GetInt("LevelProgress"));
-
-            // End game
-            // if level value is last one, when we go to next level, it'll  be "EndScene" instead of scenename + #
-            SceneManager.LoadScene(sceneName);
+            loadLevel();
             //LoadScene(sceneName);
         }
 
 
+    }
+    private void loadLevel()
+    {
+        string sceneName = "Level" + (PlayerPrefs.GetInt("LevelProgress")).ToString();
+        //Debug.Log("loading level " + _level + " saved as " + PlayerPrefs.GetInt("LevelProgress"));
+
+        // End game
+        // if level value is last one, when we go to next level, it'll  be "EndScene" instead of scenename + #
+        SceneManager.LoadScene(sceneName);
     }
 
     public int GetCurrentLevel()

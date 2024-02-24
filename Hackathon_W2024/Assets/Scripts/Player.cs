@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefs.SetInt("LevelProgress", whichLevel);
+        //PlayerPrefs.SetInt("LevelProgress", whichLevel);
         
         rb = GetComponent<Rigidbody2D>();
         camShake = Camera.main.GetComponent<ScreenShake>();
@@ -436,7 +436,7 @@ public class Player : MonoBehaviour
     private void JumpLogic()
     {
         // Check if player is grounded
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down,.8f, groundLayers);
+        isGrounded = Physics2D.Raycast(transform.position + new Vector3(0,-.1f,0), Vector2.down,.8f, groundLayers);
         Debug.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y - .8f), Color.red);
 
         if(rb.velocity.y <= 0)

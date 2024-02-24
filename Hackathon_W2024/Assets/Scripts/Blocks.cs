@@ -208,7 +208,10 @@ public class Blocks : MonoBehaviour
             Vector2 newBounceForce = bounceDirection * collision.gameObject.GetComponent<Blocks>().ReturnBounceForce() * rb.mass;
             print("block BOUNCE: " + newBounceForce);
             // Apply a force in the bounce direction to the object
+           
             rb.AddForce(newBounceForce, ForceMode2D.Impulse);
+            
+            
         }
         if (collision.gameObject.CompareTag("StickyBlock"))
         {

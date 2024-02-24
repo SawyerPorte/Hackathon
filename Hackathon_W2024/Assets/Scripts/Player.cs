@@ -424,7 +424,7 @@ public class Player : MonoBehaviour
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down,.8f, groundLayers);
         Debug.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y - .8f), Color.red);
 
-        if(rb.velocity.y < 0)
+        if(rb.velocity.y <= 0)
         {
             playerAnimator.SetBool("isFalling", true);
         }

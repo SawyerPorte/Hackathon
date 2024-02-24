@@ -39,7 +39,7 @@ public class Blocks : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         if (blockType == BlockType.Unpassable)
         {
-            Physics2D.IgnoreLayerCollision(gameObject.layer, 7);
+            //Physics2D.IgnoreLayerCollision(gameObject.layer, 7);
         }
     }
 

@@ -26,10 +26,12 @@ public class Player : MonoBehaviour
     private bool facingRight;
 
     [Header("Block vars")]
+    [Tooltip("Distance from the lock block that the player can place a block to unlock it")] [SerializeField] float lockDistance = 2f;
     [SerializeField] GameObject hiddenBoxCollider;
     [SerializeField] LayerMask pickUpLayer;
     [SerializeField] LayerMask dropLayer;
     [SerializeField] float pickUpDistance = 2f;
+    [SerializeField] float magnetEffectDist = 1.5f;
     [SerializeField] Animator animator;
     [SerializeField] float holdHeight = .5f;
     [Tooltip("how much in front of the player the block will be placed")] [SerializeField] float placeInFrontDistance = 1f;
@@ -49,6 +51,8 @@ public class Player : MonoBehaviour
     private Animator playerAnimator = null;
 
     private Vector2 startingPos;
+
+    private GameObject[] allLockedRefs;
 
     // Start is called before the first frame update
     void Start()
@@ -80,6 +84,7 @@ public class Player : MonoBehaviour
                 playerAnimator.SetBool("isFalling", false);
         }
         startingPos = transform.position;
+        allLockedRefs = GameObject.FindGameObjectsWithTag("LockBlock");
     }
 
     // Update is called once per frame
@@ -92,6 +97,28 @@ public class Player : MonoBehaviour
         }
 
         PickUpInputLogic();
+    }
+    private GameObject GetAllCloseLocks()
+    {
+        GameObject closestLock = null;
+        foreach(GameObject tempLock in allLockedRefs)
+        {
+            if(Vector3.Distance(tempLock.transform.position, transform.position) <= lockDistance)
+            {
+                if(closestLock == null)
+                {
+                    closestLock = tempLock;
+                }
+                else
+                {
+                    if (Vector3.Distance(tempLock.transform.position, transform.position) < Vector3.Distance(closestLock.transform.position, transform.position))
+                    {
+                        closestLock = tempLock;
+                    }
+                }
+            }
+        }
+        return closestLock;
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -140,9 +167,10 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(pickUpKey))
         {
+            currentLockRef = GetAllCloseLocks();
             if (!isHoldingObject)
             {
-                if (!isNearLock)
+                if (currentLockRef == null)
                 {
                     PickUpObject();
                 }
@@ -154,7 +182,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                if (!isNearLock)
+                if (currentLockRef == null)
                 {
                     DropObject();
                 }
@@ -232,7 +260,7 @@ public class Player : MonoBehaviour
     }
     private GameObject ReturnClosestDropPoint()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, pickUpDistance, dropLayer);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, magnetEffectDist, dropLayer);
         closestObject = null;
         if (colliders.Length > 0)
         {
@@ -268,21 +296,6 @@ public class Player : MonoBehaviour
             ReturnClosestDropPoint();
             if (closestObject != null)
             {
-                /*
-                // Find the closest object on the specified layer
-                GameObject closestObject = null;
-                float closestDistance = Mathf.Infinity;
-
-                foreach (Collider2D collider in colliders)
-                {
-                    float distance = Vector2.Distance(transform.position, collider.transform.position);
-                    if (distance < closestDistance)
-                    {
-                        closestObject = collider.gameObject;
-                        closestDistance = distance;
-                    }
-                }
-                */
                 // Place the picked up object at the position of the closest object
                 if (closestObject != null)
                 {
@@ -387,7 +400,7 @@ public class Player : MonoBehaviour
     public void RecieveObject()
     {
         // check if there is a referenced object, if the lock is interactable, and is occupied with a block
-        if (currentLockRef)
+        if (currentLockRef != null)
         {
             // check if object is null
             if (currentLockRef.GetComponent<LockBlock>().ReturnSubmission())

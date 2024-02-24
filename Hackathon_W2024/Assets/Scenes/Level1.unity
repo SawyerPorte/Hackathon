@@ -214,6 +214,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4609308898783496599, guid: 5256b3be23d67e943b97502cc962e4d6, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609308898783496599, guid: 5256b3be23d67e943b97502cc962e4d6, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609308898783496599, guid: 5256b3be23d67e943b97502cc962e4d6, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6444740599700294017, guid: 5256b3be23d67e943b97502cc962e4d6, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6444740599700294017, guid: 5256b3be23d67e943b97502cc962e4d6, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6444740599700294017, guid: 5256b3be23d67e943b97502cc962e4d6, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6444740599700294018, guid: 5256b3be23d67e943b97502cc962e4d6, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -337,7 +361,7 @@ GameObject:
   - component: {fileID: 741668078}
   - component: {fileID: 741668077}
   - component: {fileID: 741668076}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -448,7 +472,7 @@ GameObject:
   - component: {fileID: 747834494}
   - component: {fileID: 747834493}
   - component: {fileID: 747834492}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

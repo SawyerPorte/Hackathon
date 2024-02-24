@@ -488,6 +488,7 @@ MonoBehaviour:
   maxJumpHeight: 3
   minJumpHeight: 6.5
   chargeRate: 9
+  lockDistance: 2
   hiddenBoxCollider: {fileID: 3247030138415302476}
   pickUpLayer:
     serializedVersion: 2

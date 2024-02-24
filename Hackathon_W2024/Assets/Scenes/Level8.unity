@@ -136,11 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109506309941177521, guid: 1978bb1baa65e704c8ef9e3dfb41ac03, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.7
+      value: 2.3
       objectReference: {fileID: 0}
     - target: {fileID: 6109506309941177521, guid: 1978bb1baa65e704c8ef9e3dfb41ac03, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3
+      value: -3.75
       objectReference: {fileID: 0}
     - target: {fileID: 6109506309941177521, guid: 1978bb1baa65e704c8ef9e3dfb41ac03, type: 3}
       propertyPath: m_LocalPosition.z
@@ -491,7 +491,7 @@ GameObject:
   - component: {fileID: 277684042}
   - component: {fileID: 277684041}
   - component: {fileID: 277684040}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -584,8 +584,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 277684039}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
-  m_LocalScale: {x: 1, y: 3, z: 1}
+  m_LocalPosition: {x: 0, y: -2.2, z: 0}
+  m_LocalScale: {x: 1, y: 2.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1096,7 +1096,7 @@ GameObject:
   - component: {fileID: 836846680}
   - component: {fileID: 836846679}
   - component: {fileID: 836846678}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1492,7 +1492,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1147538603}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.26, y: -0.47, z: 0}
+  m_LocalPosition: {x: 8.33, y: -0.47, z: 0}
   m_LocalScale: {x: 1, y: 12.581845, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1667,7 +1667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6444740599700294018, guid: c7c0a515516e6e64e9c2d2fa1e08dc1a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.12
+      value: 6.61
       objectReference: {fileID: 0}
     - target: {fileID: 6444740599700294018, guid: c7c0a515516e6e64e9c2d2fa1e08dc1a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1779,7 +1779,7 @@ GameObject:
   - component: {fileID: 1550777964}
   - component: {fileID: 1550777963}
   - component: {fileID: 1550777962}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2297,7 +2297,7 @@ GameObject:
   - component: {fileID: 2005671234}
   - component: {fileID: 2005671233}
   - component: {fileID: 2005671232}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

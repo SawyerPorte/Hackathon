@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
     // Animator
     private Animator playerAnimator = null;
 
+    private Vector2 startingPos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,7 +78,7 @@ public class Player : MonoBehaviour
                 playerAnimator.SetBool("isJumping", false);
                 playerAnimator.SetBool("isFalling", false);
         }
-
+        startingPos = transform.position;
     }
 
     // Update is called once per frame
@@ -107,6 +109,19 @@ public class Player : MonoBehaviour
             //Debug.Log("stepping into range");
             currentLockRef = collision.gameObject;
             isNearLock = true;
+        }
+
+        // adding this here in case we change our minds
+        if (collision.gameObject.CompareTag("Spike"))
+        {
+            transform.position = startingPos;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Spike"))
+        {
+            transform.position = startingPos;
         }
     }
 

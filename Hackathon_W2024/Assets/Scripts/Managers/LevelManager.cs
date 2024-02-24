@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        _level = PlayerPrefs.GetInt("LevelProgress", 1);
+        _level = PlayerPrefs.GetInt("LevelProgress", 0);
         //levelText.text = _level.ToString();
     }
 

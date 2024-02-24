@@ -24,8 +24,9 @@ public class WinCon : MonoBehaviour
         cam = Camera.main;
         zoom = false;
         endingAnimator = endingSprite.GetComponent<Animator>();
-        levelManager = GameObject.Find("Managers").GetComponent<LevelManager>();
-        
+        GameObject managerChecker = GameObject.Find("Managers");
+        if(managerChecker != null)
+            levelManager = managerChecker.GetComponent<LevelManager>();
     }
 
     // Update is called once per frame

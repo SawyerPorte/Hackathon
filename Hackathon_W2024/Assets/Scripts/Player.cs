@@ -483,11 +483,15 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(jumpKey) && jumpsLeft > 0)
         {
             // Trigger jump sound
-            SoundManager.Instance.PlayGameSound("Jump");
+
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlayGameSound("Jump");
+            }
 
             // Trigger jump animation
-           
-            if(rb.velocity.y == 0)
+
+            if (rb.velocity.y == 0)
             {
                 playerAnimator.SetTrigger("isJumpingTrigger");
             }

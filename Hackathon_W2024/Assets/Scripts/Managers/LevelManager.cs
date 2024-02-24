@@ -75,7 +75,11 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.SetInt("LevelProgress", ++_level);
 
         string sceneName = "Level" + (PlayerPrefs.GetInt("LevelProgress")).ToString();
-        Debug.Log("loading level " + _level + " saved as " + PlayerPrefs.GetInt("LevelProgress"));
+        //Debug.Log("loading level " + _level + " saved as " + PlayerPrefs.GetInt("LevelProgress"));
+
+        // End game
+        // if level value is last one, when we go to next level, it'll  be end scene instead of scenename + #
+
         SceneManager.LoadScene(sceneName);
         //LoadScene(sceneName);
     }

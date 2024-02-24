@@ -45,7 +45,10 @@ public class WinCon : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            print("you win");
+            // Play win sound
+            SoundManager.Instance.PlayUISound("Victory");
+
+            //print("you win");
             zoom = true;
             
             endingSprite.SetActive(true);
@@ -68,7 +71,7 @@ public class WinCon : MonoBehaviour
         //levelManager.SetCurrentLevel(PlayerPrefs.GetInt("LevelProgress"));
         levelManager.LoadNextLevel();
         
-        print("switch level");
+        //print("switch level");
     }
 
 

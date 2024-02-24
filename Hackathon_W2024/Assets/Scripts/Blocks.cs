@@ -200,7 +200,7 @@ public class Blocks : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("BouncyBlock"))
+        if (collision.gameObject.CompareTag("BouncyBlock") && this.gameObject.tag != "LockBlock")
         {
             // Calculate the direction of the bounce (normal of the collision)
             Vector2 bounceDirection = collision.contacts[0].normal;

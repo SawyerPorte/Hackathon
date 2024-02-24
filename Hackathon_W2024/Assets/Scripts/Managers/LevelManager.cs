@@ -17,6 +17,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Image _progressBar;
     private float _target;
 
+    private bool _gameBGMStart;
+
     private void Start()
     {
         _level = PlayerPrefs.GetInt("LevelProgress", 0);
@@ -63,6 +65,13 @@ public class LevelManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
+        // Start music
+        if (!_gameBGMStart)
+        {
+            _gameBGMStart = true;
+            SoundManager.Instance.PlayMusic("GameBGM");
+        }
+
         PlayerPrefs.SetInt("LevelProgress", ++_level);
 
         string sceneName = "Level" + (PlayerPrefs.GetInt("LevelProgress")).ToString();

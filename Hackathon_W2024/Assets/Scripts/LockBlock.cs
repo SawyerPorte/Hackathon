@@ -35,7 +35,8 @@ public class LockBlock : Blocks
             if (childObject.name.Equals("RequirementSlot") && childObject.TryGetComponent<SpriteRenderer>(out SpriteRenderer sRenderer))
             {
                 //TODO: change to sprite instead of color later
-                sRenderer.color = requiredBlock.transform.GetComponent<SpriteRenderer>().color;
+                sRenderer.sprite = requiredBlock.transform.GetComponent<SpriteRenderer>().sprite;
+                //sRenderer.color = requiredBlock.transform.GetComponent<SpriteRenderer>().color;
             }
         }
 

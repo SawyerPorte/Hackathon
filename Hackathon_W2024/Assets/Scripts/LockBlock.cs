@@ -64,6 +64,7 @@ public class LockBlock : Blocks
         {
             //TODO: Give visual feedback from lock block to show submission was correct
             Debug.Log("lock block SUBMIT SUCCESS");
+            Destroy(this.gameObject);
             gameObject.SetActive(false);
 
             // Update state

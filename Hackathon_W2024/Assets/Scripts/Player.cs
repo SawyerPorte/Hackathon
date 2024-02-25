@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
         GameObject closestLock = null;
         foreach(GameObject tempLock in allLockedRefs)
         {
-            if(Vector3.Distance(tempLock.transform.position, transform.position) <= lockDistance)
+            if(tempLock != null && Vector3.Distance(tempLock.transform.position, transform.position) <= lockDistance)
             {
                 if(closestLock == null)
                 {
@@ -354,6 +354,8 @@ public class Player : MonoBehaviour
             pickedUpObject.GetComponent<Rigidbody2D>().isKinematic = false;
             pickedUpObject.GetComponent<BoxCollider2D>().isTrigger = false;
             pickedUpObject.GetComponent<Blocks>().SetHeld(false);
+            closestObject = null;
+            currentLockRef = null;
             hiddenBoxCollider.SetActive(false);
             isHoldingObject = false;
             pickedUpObject = null;
